@@ -1,0 +1,5 @@
+- name: "creating aws infrastrucre for multi node cluster"
+  hosts: localhost
+  roles:
+          - role: "aws_infrastrucre"
+

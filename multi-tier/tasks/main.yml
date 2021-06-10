@@ -1,0 +1,22 @@
+- copy:
+      src: "{{ item }}"
+      dest: "/root/"
+  loop:
+   - mysql.yml
+   - sql_load.yml
+   - wordpress.yml
+   - wordpress_load.yml
+
+- name:  "****creating multi-tier application****"
+  command: "{{ item }}"
+  loop:
+  - "kubectl apply -f mysql.yml"
+  - "kubectl apply -f sql_load.yml"
+  - "kubectl apply -f wordpress.yml"
+  - "kubectl apply -f wordpress_load.yml"
+  args:
+      chdir: /root/
+
+- debug:
+    msg: "*******Your multi-Tier application has setup*********"
+

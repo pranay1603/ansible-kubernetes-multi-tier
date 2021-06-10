@@ -1,0 +1,32 @@
+ - name: "creating aws instance"
+   ec2:
+       assign_public_ip: "{{ assign_public_ip }}"
+       aws_access_key: "{{ username }}"
+       aws_secret_key: "{{ password }}"
+       image: "{{ image_id }}"
+       instance_type: "{{ instance_type }}"
+       region: "{{ region }}"
+       vpc_subnet_id: "{{ vpc_subnet_id }}"
+       key_name: "{{ key_name }}"
+       instance_tags:
+            Name: "{{ item }}"
+       wait: "{{ wait }}" 
+       wait_timeout: "{{ wait_timeout }}"
+   loop: 
+       - master
+       - workernode1
+       - workernode2
+
+   register: instance
+
+ - name: "adding ips to inventory"
+   blockinfile:
+      create: yes     
+      path: /root/pranay_ws/invent.txt
+      block: |
+            [masternode]
+            {{ instance.results[0].instances[0].public_ip }}
+            [workernode]
+            {{ instance.results[1].instances[0].public_ip }}
+            {{ instance.results[2].instances[0].public_ip }}
+
