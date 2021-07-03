@@ -22,7 +22,7 @@
  - name: "adding ips to inventory"
    blockinfile:
       create: yes     
-      path: /root/pranay_ws/invent.txt
+      path: /root/ansible-kubernetes-multi-tier/invent.txt
       block: |
             [masternode]
             {{ instance.results[0].instances[0].public_ip }}
